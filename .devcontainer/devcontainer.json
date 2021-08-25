@@ -21,6 +21,7 @@
     "haskell.formattingProvider": "ormolu",
     "haskell.languageServerVariant": "haskell-language-server",
     "hoogle-vscode.useCabalDependencies": true,
+    "git.defaultCloneDirectory": "/workspaces",
 },
 
   // Add the IDs of extensions you want installed when the container is created.
