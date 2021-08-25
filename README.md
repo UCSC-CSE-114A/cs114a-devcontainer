@@ -14,7 +14,7 @@ system.
 4. You should get a popup that says: "Workspace contains a Dev Container configuration file." Click `Reopen in Container` and then `Continue` to dismiss the warning about a workspace with no folders.
 5. Wait while Docker builds the devcontainer.  This could take a while, and might benefit from a good internet connection.
 6. Once the container is built, you should be able to get a terminal window on the container, probably with a prompt like `vscode ➜ ~ $`.  If you don't see one, you can try opening one by selecting `Terminal -> New Terminal` from the menu.
-7. Now, in the exlporer tab (`View -> Explorer` if you are lost), select the button `Clone Repository` and paste the URL to your assignment repository into the field at the top of the window. Select `/home/vscode` as the location to clone into.
+7. Now, in the exlporer tab (`View -> Explorer` if you are lost), select the button `Clone Repository` and paste the URL to your assignment repository into the field at the top of the window. Select `/workspaces/cs114a-devcontainer-<version>` as the location to clone into.
 8. You should get a popup that says: "Would you like to open the cloned repository, or add it to the current workspace?" Click `Add to Workspace`
 9. Now you may get a popup that says: "Working out the project GHC version. This might take a while." This should complete in a few minutes.
-10. The cloned repository should now be available in `/home/vscode`. 
+10. The cloned repository should now be available in `/workspaces/cs114a-devcontainer-<version>` inside the container and the `cs114a-devcontainer-<version>` directory on the container's host.
