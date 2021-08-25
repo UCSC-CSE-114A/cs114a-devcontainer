@@ -24,5 +24,3 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
-# Install debugger
-RUN stack install haskell-dap ghci-dap haskell-debug-adapter
