@@ -1,0 +1,9 @@
+{
+    "languageServerHaskell.hieVariant": "haskell-language-server",
+    "git.enableSmartCommit": true,
+    "git.autofetch": true,
+    "files.exclude": {
+        "Setup.hs": true
+    },
+    "git.defaultCloneDirectory": "${workspaceRoot}"
+}
