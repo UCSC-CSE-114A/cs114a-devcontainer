@@ -38,8 +38,7 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "uname -a",
-
+  "postCreateCommand": "stack install --resolver=lts-17.7 haskell-dap ghci-dap haskell-debug-adapter",
 
   // Comment out connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode"
