@@ -10,7 +10,7 @@ system.
 
 1. Download the latest release here: https://github.com/UCSC-CSE-114A/cs114a-devcontainer/releases/latest
 2. Unzip archive to create a directory `cs114a-devcontainer-<version>`
-3. In VS Code, open the CS114A workspace by selecting `File -> Open Workspace` and selecting the file CS114A.code-workspace in the new directory.
+3. In VS Code, open the CS114A workspace by selecting `File -> Open Workspace` and selecting the file `CS114A.code-workspace` in the new directory.
 4. You should get a popup that says: "Workspace contains a Dev Container configuration file." Click `Reopen in Container` and then `Continue` to dismiss the warning about a workspace with no folders.
 5. Wait while Docker builds the devcontainer.  This could take a while, and might benefit from a good internet connection.
 6. Once the container is built, you should be able to get a terminal window on the container, probably with a prompt like `vscode ➜ ~ $`.  If you don't see one, you can try opening one by selecting `Terminal -> New Terminal` from the menu.
