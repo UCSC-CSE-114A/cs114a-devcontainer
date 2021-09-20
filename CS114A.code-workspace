@@ -6,6 +6,9 @@
       "justusadam.language-haskell",
       "eriksik2.vscode-ghci",
       "jcanero.hoogle-vscode",
+      "ms-vscode-remote.remote-containers",
+      "ms-azuretools.vscode-docker",
+      "github.vscode-pull-request-github"
     ]
   },
   "tasks": {
