@@ -23,3 +23,9 @@ system.
 8. You should get a popup that says: "Would you like to open the cloned repository, or add it to the current workspace?" Click `Add to Workspace`
 9. Now you may get a popup that says: "Working out the project GHC version. This might take a while." This should complete in a few minutes.
 10. The cloned repository should now be available in `/workspaces/cs114a-devcontainer-<version>` inside the container and the `cs114a-devcontainer-<version>` directory on the container's host.
+# Troubleshooting
+#### `ExitFailure (-9) (THIS MAY INDICATE OUT OF MEMORY).`
+This probably means that your docker container does not have enough memory allocated to build the Haskell dependencies.  GHC is known to be a memory hog!  You will probably have better luck by increasing the maximum memory Docker is permitted to use by going to Preferences -> Resources and increasing the Memory slider to at least 8GB. 
+
+If your machine has <= 8GB in physical memory, you might be able to get by with less by repeatedly re-running the failed `stack install ...` command until all the packages manage to install.  See [this SO post](https://stackoverflow.com/questions/56496852/problem-building-a-docker-container-with-haskell-stack-how-can-i-ensure-that-ha) for inspiration.
+
