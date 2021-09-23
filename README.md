@@ -1,12 +1,11 @@
-# Prereq: Make sure docker is installed and running
-See here for installation directions: https://docs.docker.com/get-docker/
-
 # CSE 114A Dev Container
 
 A repository for a VS Code Development Container for implementing UCSC CSE 114A programming assignments.
 For some general info on making your own devcontainers see here: https://benmatselby.dev/post/vscode-dev-containers/
+## Prereq: Make sure docker is installed and running
+See here for installation directions: https://docs.docker.com/get-docker/
 
-# Quick start: How to use
+## Quick start: How to use
 The main purpose of a devcontainer is to have a simple way of getting a usable
 and predictable development environment regardless of the underlying operating
 system.
@@ -23,7 +22,7 @@ system.
 8. You should get a popup that says: "Would you like to open the cloned repository, or add it to the current workspace?" Click `Add to Workspace`
 9. Now you may get a popup that says: "Working out the project GHC version. This might take a while." This should complete in a few minutes.
 10. The cloned repository should now be available in `/workspaces/cs114a-devcontainer-<version>` inside the container and the `cs114a-devcontainer-<version>` directory on the container's host.
-# Troubleshooting
+## Troubleshooting
 #### `ExitFailure (-9) (THIS MAY INDICATE OUT OF MEMORY).`
 This probably means that your docker container does not have enough memory allocated to build the Haskell dependencies.  GHC is known to be a memory hog!  You will probably have better luck by increasing the maximum memory Docker is permitted to use by going to Preferences -> Resources and increasing the Memory slider to at least 8GB. 
 
