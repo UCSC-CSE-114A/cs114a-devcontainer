@@ -24,7 +24,21 @@ system.
 10. The cloned repository should now be available in `/workspaces/cs114a-devcontainer-<version>` inside the container and the `cs114a-devcontainer-<version>` directory on the container's host.
 ## Troubleshooting
 #### `ExitFailure (-9) (THIS MAY INDICATE OUT OF MEMORY).`
-This probably means that your docker container does not have enough memory allocated to build the Haskell dependencies.  GHC is known to be a memory hog!  You will probably have better luck by increasing the maximum memory Docker is permitted to use by going to Preferences -> Resources and increasing the Memory slider to at least 8GB. 
+This probably means that your docker container does not have enough memory allocated to build the Haskell dependencies.  GHC is known to be a memory hog!  You will probably have better luck by increasing the maximum memory Docker is permitted to use by going to Preferences -> Resources and increasing the Memory slider to at least 4GB. 
 
 If your machine has <= 8GB in physical memory, you might be able to get by with less by repeatedly re-running the failed `stack install ...` command until all the packages manage to install.  See [this SO post](https://stackoverflow.com/questions/56496852/problem-building-a-docker-container-with-haskell-stack-how-can-i-ensure-that-ha) for inspiration.
+
+#### Apple M1 
+Since the devcontainer is an x86_64 image, there are some potential issues getting it to run on the new Apple M1 CPU.  The best advice at the moment is to try installing Rosetta 2 to emulate the x86_64 architecture when running the devcontainer. 
+Run this to install Rosetta. 
+```softwareupdate --install-rosetta```
+Then download and install [Docker for Mac](https://docs.docker.com/desktop/mac/install/).  
+Next, open the (potentially hidden) directory `cs114a-devcontainer-<version>/.devcontainer` and edit `Dockerfile`.
+Change 
+```FROM haskell:${VARIANT}```
+to
+```FROM --platform=linux/amd64 haskell:${VARIANT}```
+
+This tells Docker to run the image under emulation (via Rosetta).
+
 
