@@ -2,8 +2,9 @@
 #
 # [Choice] Haskell version: 9, 8
 ARG VARIANT=8
-FROM haskell:${VARIANT}
+FROM --platform=linux/amd64 haskell:${VARIANT}
 
+Owen Arden: this tells Docker to run the image under emulation (via Rosetta)
 # Use the [Option] comment to specify true/false arguments that should appear in VS Code UX
 #
 # [Option] Install zsh
