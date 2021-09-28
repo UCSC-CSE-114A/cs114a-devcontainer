@@ -22,6 +22,7 @@ system.
 8. You should get a popup that says: "Would you like to open the cloned repository, or add it to the current workspace?" Click `Add to Workspace`
 9. Now you may get a popup that says: "Working out the project GHC version. This might take a while." This should complete in a few minutes.
 10. The cloned repository should now be available in `/workspaces/cs114a-devcontainer-<version>` inside the container and the `cs114a-devcontainer-<version>` directory on the container's host.
+11. To set up debugging support in the container, select the 'TERMINAL' tab in the lower right VSCode panel and click '+' to open a new command line on the container.  Execute `stack install haskell-dap ghci-dap haskell-debug-adapter`. You now should be able to run the 'haskell(stack)' configuration in the 'Run and Debug Menu'.
 ## Troubleshooting
 #### `ExitFailure (-9) (THIS MAY INDICATE OUT OF MEMORY).`
 This probably means that your docker container does not have enough memory allocated to build the Haskell dependencies.  GHC is known to be a memory hog!  You will probably have better luck by increasing the maximum memory Docker is permitted to use by going to Preferences -> Resources and increasing the Memory slider to at least 4GB. 
