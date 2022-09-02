@@ -1,16 +1,16 @@
 {
   "name": "Haskell (Community)",
-  "build": {
-    // uncomment to build container locally
-    // "dockerfile": "Dockerfile",
-    // uncomment to download container image from Docker Hub
-    "image": "owenardenucsc/ucsc-cse-114a-devcontainer",
+  // uncomment to download container image from Docker Hub
+  "image": "UCSC-CSE-114A/ucsc-cse-114a-devcontainer",
 
-    "args": {
-      // Update 'GHC_VERSION' to pick a GHC version: recommended, latest, 9.2, 9.0, 8.10, 8.8, 8.6
-      "GHC_VERSION": "9.0"
-    }
-  },
+  // uncomment to build container locally
+  // "build": {
+  //   // "dockerfile": "Dockerfile",
+  //   "args": {
+  //     // Update 'GHC_VERSION' to pick a GHC version: recommended, latest, 9.2, 9.0, 8.10, 8.8, 8.6
+  //     "GHC_VERSION": "9.0"
+  //   }
+  // },
   // Configure tool-specific properties.
   "customizations": {
     // Configure properties specific to VS Code.
@@ -46,6 +46,3 @@
   // Comment out to connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode"
 }
-
-
-
