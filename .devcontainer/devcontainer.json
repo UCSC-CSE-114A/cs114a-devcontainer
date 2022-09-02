@@ -1,45 +1,47 @@
 {
   "name": "Haskell (Community)",
-
-  // Update the 'dockerfile' property if you aren't using the standard 'Dockerfile' filename.
   "build": {
-          "dockerfile": "Dockerfile",
-          "args": {
-            // Update 'VARIANT' to pick a Haskell version: 9, 8
-            "VARIANT": "8"
-          }
+    "dockerfile": "Dockerfile",
+    "args": {
+      // Update 'GHC_VERSION' to pick a GHC version: recommended, latest, 9.2, 9.0, 8.10, 8.8, 8.6
+      "GHC_VERSION": "9.0"
+    }
   },
-
-  // Set *default* container specific settings.json values on container create.
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash",
-    "haskell.hlintOn": true,
-    "haskell.diagnosticsOnChange": true,
-    "haskell.liquidOn": true,
-    "haskell.completionSnippetsOn": true,
-    "haskell.formatOnImportOn": true,
-    "haskell.formattingProvider": "ormolu",
-    "haskell.languageServerVariant": "haskell-language-server",
-    "hoogle-vscode.useCabalDependencies": true,
-    "git.defaultCloneDirectory": "/workspaces",
-},
-
-  // Add the IDs of extensions you want installed when the container is created.
-  "extensions": [
-    "haskell.haskell",
-    "phoityne.phoityne-vscode",
-    "justusadam.language-haskell"
-    "eriksik2.vscode-ghci",
-    "jcanero.hoogle-vscode",
-    "GitHub.classroom"
-  ],
-
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [],
-
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {
+        "haskell.manageHLS": "GHCup",
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "haskell.hlintOn": true,
+        "haskell.diagnosticsOnChange": true,
+        "haskell.liquidOn": true,
+        "haskell.completionSnippetsOn": true,
+        "haskell.formatOnImportOn": true,
+        "haskell.formattingProvider": "ormolu",
+        "haskell.languageServerVariant": "haskell-language-server",
+        "hoogle-vscode.useCabalDependencies": true,
+        "git.defaultCloneDirectory": "/workspaces"
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "haskell.haskell",
+        "phoityne.phoityne-vscode",
+        "justusadam.language-haskell"
+        "eriksik2.vscode-ghci",
+        "jcanero.hoogle-vscode",
+        "GitHub.classroom"
+      ]
+    }
+  },
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "stack install --resolver=lts-17.7 haskell-dap ghci-dap haskell-debug-adapter",
+  // "postCreateCommand": ""
 
-  // Comment out connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
+  // Comment out to connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode"
 }
+
+
+
