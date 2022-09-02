@@ -1,7 +1,11 @@
 {
   "name": "Haskell (Community)",
   "build": {
-    "dockerfile": "Dockerfile",
+    // uncomment to build container locally
+    // "dockerfile": "Dockerfile",
+    // uncomment to download container image from Docker Hub
+    "image": "owenardenucsc/ucsc-cse-114a-devcontainer",
+
     "args": {
       // Update 'GHC_VERSION' to pick a GHC version: recommended, latest, 9.2, 9.0, 8.10, 8.8, 8.6
       "GHC_VERSION": "9.0"
