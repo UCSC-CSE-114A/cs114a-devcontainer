@@ -29,7 +29,7 @@
       "extensions": [
         "haskell.haskell",
         "phoityne.phoityne-vscode",
-        "justusadam.language-haskell"
+        "justusadam.language-haskell",
         "eriksik2.vscode-ghci",
         "jcanero.hoogle-vscode",
         "GitHub.classroom"
