@@ -1,7 +1,7 @@
 {
   "name": "Haskell (Community)",
-  // uncomment to download container image from Docker Hub
-  "image": "ucsc-cse-114a/ucsc-cse-114a-devcontainer",
+  // uncomment to download container image from GitHub
+  "image": "ghcr.io/ucsc-cse-114a/cs114a-devcontainer:latest",
 
   // uncomment to build container locally
   // "build": {
@@ -36,7 +36,8 @@
         "justusadam.language-haskell",
         "eriksik2.vscode-ghci",
         "jcanero.hoogle-vscode",
-        "GitHub.classroom"
+        "GitHub.classroom",
+        "GitHub.codespaces"
       ]
     }
   },
