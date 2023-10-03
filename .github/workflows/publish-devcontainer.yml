@@ -14,8 +14,8 @@ on:
     types: [published]
 
 jobs:
-  push_to_registries:
-    name: Push Docker image to Container registry
+  push_to_registries_x86_64:
+    name: Push Docker image to Container registry (x86_64)
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -23,21 +23,21 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
-      
+
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: |
             ghcr.io/${{ github.repository }}
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -45,6 +45,52 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./.devcontainer
+          platforms: linux/amd64
+          build-args: |
+            CPU_ARCH=x86_64
+            GHC_VERSION=9.4.7
+            STACK_RESOLVER=lts-21.14
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  push_to_registries_aarch64:
+    name: Push Docker image to Container registry (aarch64)
+    runs-on: macos-latest-xlarge
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
+        with:
+          context: ./.devcontainer
+          platforms: linux/arm64
+          build-args: |
+            CPU_ARCH=aarch64
+            GHC_VERSION=9.4.7
+            STACK_RESOLVER=lts-21.14
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+

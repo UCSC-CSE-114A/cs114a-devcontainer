@@ -18,6 +18,7 @@ RUN apt-get update \
     && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true"\
     && rm -rf /tmp/library-scripts \
     && apt-get install -y --no-install-recommends \
+        build-essential \
         dpkg-dev \
         gcc \
         libc6-dev \
@@ -26,18 +27,22 @@ RUN apt-get update \
         libnuma-dev \
         libtinfo-dev \
         zlib1g-dev \
+        llvm-dev \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Install latest GHCup in the non-root user home
 USER $USERNAME
 
+ARG CPU_ARCH=x86_64
+
 RUN mkdir -p "$HOME/.ghcup/bin" \
-    && curl -LJ "https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup" -o "$HOME/.ghcup/bin/ghcup" \
+    && curl -LJ "https://downloads.haskell.org/~ghcup/${CPU_ARCH}-linux-ghcup" -o "$HOME/.ghcup/bin/ghcup" \
     && chmod +x "$HOME/.ghcup/bin/ghcup"
 ENV PATH="/home/$USERNAME/.cabal/bin:/home/$USERNAME/.ghcup/bin:$PATH"
 
 # [Choice] GHC version: recommended, latest, 9.2, 9.0, 8.10, 8.8, 8.6
 ARG GHC_VERSION=9.0
+ARG STACK_RESOLVER=lts-19.20
 
 # Use GHCup to install versions of main utilities
 # If you prefer to let the Haskell extension install everything on demand,
@@ -49,4 +54,4 @@ RUN ghcup install ghc "${GHC_VERSION}" --set \
     && cabal update
 
 RUN stack config set system-ghc --global true
-RUN stack install --resolver=lts-19.20 haskell-dap ghci-dap haskell-debug-adapter
+RUN stack install --resolver=${STACK_RESOLVER} haskell-dap ghci-dap haskell-debug-adapter
