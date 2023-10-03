@@ -48,6 +48,8 @@ jobs:
           platforms: linux/amd64
           build-args: |
             CPU_ARCH=x86_64
+            GHC_VERSION=9.4.7
+            STACK_RESOLVER=lts-21.14
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -86,6 +88,8 @@ jobs:
           platforms: linux/arm64
           build-args: |
             CPU_ARCH=aarch64
+            GHC_VERSION=9.4.7
+            STACK_RESOLVER=lts-21.14
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
