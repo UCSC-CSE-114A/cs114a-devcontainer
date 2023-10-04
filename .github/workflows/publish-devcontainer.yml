@@ -12,20 +12,30 @@ name: Publish Docker image
 on:
   release:
     types: [published]
+  push:
+    branches:
+      - main
 
 jobs:
-  push_to_registries_x86_64:
-    name: Push Docker image to Container registry (x86_64)
+  push_to_registries:
+    name: Push Docker image to Container registry
     runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -34,63 +44,40 @@ jobs:
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         with:
           images: |
             ghcr.io/${{ github.repository }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: Build and push Docker images
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         with:
           context: ./.devcontainer
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           build-args: |
-            CPU_ARCH=x86_64
             GHC_VERSION=9.4.7
             STACK_RESOLVER=lts-21.14
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  push_to_registries_aarch64:
-    name: Push Docker image to Container registry (aarch64)
-    runs-on: macos-latest-xlarge
-    permissions:
-      packages: write
-      contents: read
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v3
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: |
-            ghcr.io/${{ github.repository }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v3
+      - name: Build and export
+        uses: docker/build-push-action@v5
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         with:
           context: ./.devcontainer
-          platforms: linux/arm64
+          platforms: linux/amd64,linux/arm64
           build-args: |
-            CPU_ARCH=aarch64
             GHC_VERSION=9.4.7
             STACK_RESOLVER=lts-21.14
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: cs114a_devcontainer:latest
+          outputs: type=docker,dest=/tmp/cs114a_devcontainer.tar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        with:
+          name: cs114a_devcontainer
+          path: /tmp/cs114a_devcontainer.tar
 

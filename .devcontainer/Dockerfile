@@ -33,10 +33,8 @@ RUN apt-get update \
 # Install latest GHCup in the non-root user home
 USER $USERNAME
 
-ARG CPU_ARCH=x86_64
-
 RUN mkdir -p "$HOME/.ghcup/bin" \
-    && curl -LJ "https://downloads.haskell.org/~ghcup/${CPU_ARCH}-linux-ghcup" -o "$HOME/.ghcup/bin/ghcup" \
+    && curl -LJ "https://downloads.haskell.org/~ghcup/$(uname -m)-linux-ghcup" -o "$HOME/.ghcup/bin/ghcup" \
     && chmod +x "$HOME/.ghcup/bin/ghcup"
 ENV PATH="/home/$USERNAME/.cabal/bin:/home/$USERNAME/.ghcup/bin:$PATH"
 
