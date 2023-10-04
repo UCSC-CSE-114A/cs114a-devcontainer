@@ -48,6 +48,10 @@ jobs:
         id: commit_sha
         run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
+      - name: Manually generate sha tag
+        id: tag_sha
+        run: echo "tag=ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}" | tr '[:upper:]' '[:lower:]' >> $GITHUB_OUTPUT
+
       - name: Build and push Docker images
         uses: docker/build-push-action@v5
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
@@ -59,7 +63,7 @@ jobs:
             STACK_RESOLVER=lts-21.14
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}-amd64
+            ${{ steps.tag_sha.outputs.tag }}-amd64
           labels: ${{ steps.meta.outputs.labels }}
 
 
@@ -97,6 +101,10 @@ jobs:
         id: commit_sha
         run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
+      - name: Manually generate sha tag
+        id: tag_sha
+        run: echo "tag=ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}" | tr '[:upper:]' '[:lower:]' >> $GITHUB_OUTPUT
+
       - name: Build and push Docker images
         uses: docker/build-push-action@v5
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
@@ -108,7 +116,7 @@ jobs:
             STACK_RESOLVER=lts-21.14
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}-arm64
+            ${{ steps.tag_sha.outputs.tag }}-arm64
           labels: ${{ steps.meta.outputs.labels }}
 
 
@@ -137,19 +145,28 @@ jobs:
         id: commit_sha
         run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
+      - name: Manually generate sha tag
+        id: tag_sha
+        run: echo "tag=ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}" | tr '[:upper:]' '[:lower:]' >> $GITHUB_OUTPUT
+
+      - name: Manually generate latest tag
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
+        id: tag_latest
+        run: echo "tag=ghcr.io/${{ github.repository }}:latest" | tr '[:upper:]' '[:lower:]' >> $GITHUB_OUTPUT
+
       - name: Create and push a multi-arch manifest
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         run: |
           docker buildx imagetools create \
-            -t ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }} \
-            ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}-amd64 \
-            ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}-arm64
+            -t ${{ steps.tag_sha.outputs.tag }} \
+            ${{ steps.tag_sha.outputs.tag }}-amd64 \
+            ${{ steps.tag_sha.outputs.tag }}-arm64
 
       - name: Create and push a multi-arch manifest (latest)
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         run: |
           docker buildx imagetools create \
-            -t ghcr.io/${{ github.repository }}:latest \
-            ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}-amd64 \
-            ghcr.io/${{ github.repository }}:${{ steps.commit_sha.outputs.short }}-arm64
+            -t ${{ steps.tag_latest.outputs.tag }} \
+            ${{ steps.tag_sha.outputs.tag }}-amd64 \
+            ${{ steps.tag_sha.outputs.tag }}-arm64
 
