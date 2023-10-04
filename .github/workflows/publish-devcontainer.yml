@@ -67,17 +67,37 @@ jobs:
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         with:
           context: ./.devcontainer
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           build-args: |
             GHC_VERSION=9.4.7
             STACK_RESOLVER=lts-21.14
-          tags: cs114a_devcontainer:latest
-          outputs: type=docker,dest=/tmp/cs114a_devcontainer.tar
+          tags: cs114a_devcontainer:amd64
+          outputs: type=docker,dest=/tmp/cs114a_devcontainer_amd64.tar
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         with:
-          name: cs114a_devcontainer
-          path: /tmp/cs114a_devcontainer.tar
+          name: cs114a_devcontainer_amd64
+          path: /tmp/cs114a_devcontainer_amd64.tar
+
+      - name: Build and export
+        uses: docker/build-push-action@v5
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        with:
+          context: ./.devcontainer
+          platforms: linux/arm64
+          build-args: |
+            GHC_VERSION=9.4.7
+            STACK_RESOLVER=lts-21.14
+          tags: cs114a_devcontainer:arm64
+          outputs: type=docker,dest=/tmp/cs114a_devcontainer_arm64.tar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        with:
+          name: cs114a_devcontainer_arm64
+          path: /tmp/cs114a_devcontainer_arm64.tar
+
 
